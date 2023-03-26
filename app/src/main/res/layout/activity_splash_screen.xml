@@ -4,6 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Splash_Screen">
+    tools:context=".Splash_Screen"
+    android:background="#3F51B5">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="405dp"
+        android:layout_height="306dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/splash_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="e-Attendence"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="50sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
