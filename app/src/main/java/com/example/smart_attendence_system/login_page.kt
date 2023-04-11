@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.example.smart_attendence_system.forgot_password
 import com.example.smart_attendence_system.databinding.ActivityLoginPageBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -70,10 +71,10 @@ class login_page : AppCompatActivity() {
             }
         }
 
-        val signin = findViewById<TextView>(R.id.textView)
-        signin.setOnClickListener {
+        val myTextView = findViewById<TextView>(R.id.textView2)
+        myTextView.setOnClickListener {
             // Create the intent to open the next activity
-            val intent = Intent(this, singup_page::class.java)
+            val intent = Intent(this, forgot_password ::class.java)
 
             // Start the next activity
             startActivity(intent)
@@ -82,12 +83,13 @@ class login_page : AppCompatActivity() {
     }
 
 
-    override fun onStart() {
-        super.onStart()
 
-        if (firebaseAuth.currentUser != null) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
+override fun onStart() {
+    super.onStart()
+
+    if(firebaseAuth.currentUser != null){
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 }
+    }
