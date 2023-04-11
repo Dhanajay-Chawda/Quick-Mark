@@ -21,8 +21,6 @@ class login_page : AppCompatActivity() {
 
 
         //Hide the actionBar
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-        actionBar?.hide()
         supportActionBar?.hide()
 
 
@@ -75,6 +73,15 @@ class login_page : AppCompatActivity() {
         myTextView.setOnClickListener {
             // Create the intent to open the next activity
             val intent = Intent(this, forgot_password ::class.java)
+
+            // Start the next activity
+            startActivity(intent)
+        }
+
+        val signup = findViewById<TextView>(R.id.textView)
+        signup.setOnClickListener {
+            // Create the intent to open the next activity
+            val intent = Intent(this, singup_page ::class.java)
 
             // Start the next activity
             startActivity(intent)

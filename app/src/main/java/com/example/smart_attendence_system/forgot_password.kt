@@ -27,8 +27,6 @@ class forgot_password : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         //Hide the actionBar
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-        actionBar?.hide()
         supportActionBar?.hide()
 
 
