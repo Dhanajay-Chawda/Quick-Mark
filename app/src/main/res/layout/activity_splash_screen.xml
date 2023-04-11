@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Splash_Screen"
-    android:background="#3F51B5">
+    tools:context=".Splash_Screen">
 
     <ImageView
         android:id="@+id/imageView"
@@ -27,7 +26,7 @@
         android:fontFamily="sans-serif-smallcaps"
         android:text="e-Attendence"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
