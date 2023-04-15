@@ -9,11 +9,13 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.example.smart_attendence_system.databinding.ActivitySingupPageBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class singup_page : AppCompatActivity() {
 
     private lateinit var binding: ActivitySingupPageBinding
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -27,6 +29,7 @@ class singup_page : AppCompatActivity() {
         setContentView(binding.root)
 
         firebaseAuth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
 
 
         binding.button.setOnClickListener {
@@ -46,6 +49,19 @@ class singup_page : AppCompatActivity() {
                             firebaseAuth.currentUser?.sendEmailVerification()
                                 ?.addOnSuccessListener {
                                     Toast.makeText(this, "Please Verify your email", Toast.LENGTH_SHORT).show()
+
+                                    // Store the user's email address in Firestore
+                                    val userId = firebaseAuth.currentUser?.uid
+                                    val userRef = db.collection("users").document(userId!!)
+                                    userRef.set(mapOf("email" to email))
+                                        .addOnSuccessListener {
+                                            Toast.makeText(this, "User email saved successfully", Toast.LENGTH_SHORT).show()
+                                        }
+                                        .addOnFailureListener {
+                                            Toast.makeText(this, "Error saving user email: ${it.message}", Toast.LENGTH_SHORT).show()
+                                        }
+
+
                                 }
 
                                 ?.addOnFailureListener{
