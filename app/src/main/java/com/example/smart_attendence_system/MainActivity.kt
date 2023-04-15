@@ -11,6 +11,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import User
+import android.util.Log
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,7 +42,8 @@ class MainActivity : AppCompatActivity() {
         // Retrieve user's email from Firestore and display it in the TextView
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            db.collection("users").document(currentUser.uid).get().addOnSuccessListener { documentSnapshot ->
+            db.collection("users").document(currentUser.uid).get()
+                .addOnSuccessListener { documentSnapshot ->
                 if (documentSnapshot.exists()) {
                     val userEmail = documentSnapshot.getString("email")
                     userEmailTextView.text = userEmail
@@ -78,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        recyclerView = findViewById(R.id.RecyclerView)  // fix here
+        recyclerView = findViewById(R.id.RecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         val user = firebaseAuth.currentUser
         val userId = user?.uid
@@ -91,13 +93,18 @@ class MainActivity : AppCompatActivity() {
                 .addOnSuccessListener {
 
                     if (!it.isEmpty){
+                        //Log.d("main activity userlist",it.documents.toString());
                         for(data in it.documents){
-                            val user:User? =data.toObject(User::class.java)
-                            if (user != null) {
-                                userList.add(user)
+                            Log.d("main activity userlist",data.id.toString());
+                            var usr:User? =data.toObject(User::class.java);
+                            usr?.classid=data.id.toString();
+                            if (usr != null) {
+                                userList.add(usr)
                             }
                         }
+                        //Log.d("main activity userlist",userList[0].s.toString());
                         recyclerView.adapter = MyAdapter(userList)
+
                     }
                 }
                 .addOnFailureListener{

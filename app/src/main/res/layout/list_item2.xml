@@ -14,27 +14,19 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/clas_name"
+            android:id="@+id/studentName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Class"
+            android:text="Name"
             android:textSize="20sp"
             android:textColor="@color/yellow"
             />
 
         <TextView
-            android:id="@+id/section"
+            android:id="@+id/rollNo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Section"
-            android:textSize="15sp"
-            android:textColor="@color/black"/>
-
-        <TextView
-            android:id="@+id/subject"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Subject"
+            android:text="RollNo."
             android:textSize="15sp"
             android:textColor="@color/black"/>
     </LinearLayout>

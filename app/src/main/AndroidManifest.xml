@@ -15,6 +15,15 @@
         android:theme="@style/Theme.Smart_Attendence_System"
         tools:targetApi="31">
         <activity
+            android:name=".Add_Student"
+            android:exported="false" />
+        <activity
+            android:name=".Student_List"
+            android:exported="false" />
+        <activity
+            android:name=".Class_Info"
+            android:exported="false" />
+        <activity
             android:name=".Creat_Class"
             android:exported="false" />
         <activity

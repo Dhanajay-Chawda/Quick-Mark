@@ -1,6 +1,8 @@
 package com.example.smart_attendence_system
 
 import User
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +16,13 @@ class MyAdapter(private val userList: ArrayList<User>):
         val tvClass:TextView=itemView.findViewById(R.id.clas_name)
         val tvSection:TextView=itemView.findViewById(R.id.section)
         val tvSubject:TextView=itemView.findViewById(R.id.subject)
+
+
+
+        init {
+
+
+        }
 
     }
 
@@ -30,6 +39,14 @@ class MyAdapter(private val userList: ArrayList<User>):
         holder.tvClass.text = userList[position].class_name
         holder.tvSection.text = userList[position].section
         holder.tvSubject.text = userList[position].subject
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(holder.itemView.context, Add_Student::class.java)
+            val user = userList[position]
+//            Log.d("tmp123", userList[position].classid.toString());
+            intent.putExtra("id", user.classid)
+            holder.itemView.context.startActivity(intent)
+        }
 
     }
 
