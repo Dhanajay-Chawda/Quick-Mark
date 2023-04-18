@@ -2,7 +2,6 @@ package com.example.smart_attendence_system
 
 import User
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,11 +17,6 @@ class MyAdapter(private val userList: ArrayList<User>):
         val tvSubject:TextView=itemView.findViewById(R.id.subject)
 
 
-
-        init {
-
-
-        }
 
     }
 
@@ -41,12 +35,29 @@ class MyAdapter(private val userList: ArrayList<User>):
         holder.tvSubject.text = userList[position].subject
 
         holder.itemView.setOnClickListener {
-            val intent = Intent(holder.itemView.context, Add_Student::class.java)
+            val intent = Intent(holder.itemView.context, Class_Info::class.java)
             val user = userList[position]
-//            Log.d("tmp123", userList[position].classid.toString());
             intent.putExtra("id", user.classid)
             holder.itemView.context.startActivity(intent)
         }
+
+
+//        holder.itemView.setOnClickListener {
+//            val context = holder.itemView.context
+//            val user = userList[position]
+//
+//            // Create an intent to send data to the other activity
+//            val addStudent = Intent(holder.itemView.context, Add_Student::class.java)
+//            addStudent.putExtra("id", user.classid)
+//
+//            // Create an intent to open the Class_Info activity
+//            val classInfoIntent = Intent(context, Class_Info::class.java)
+//            classInfoIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//
+//            // Start both activities with the intents
+//           holder.itemView.context.startActivity(addStudent)
+//            context.startActivity(classInfoIntent)
+//        }
 
     }
 

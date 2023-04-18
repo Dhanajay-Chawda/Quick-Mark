@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/studentName"
+            android:id="@+id/Name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Name"
@@ -23,10 +23,10 @@
             />
 
         <TextView
-            android:id="@+id/rollNo"
+            android:id="@+id/ID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="RollNo."
+            android:text="ID"
             android:textSize="15sp"
             android:textColor="@color/black"/>
     </LinearLayout>

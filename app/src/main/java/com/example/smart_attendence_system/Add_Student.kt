@@ -25,9 +25,8 @@ class Add_Student : AppCompatActivity() {
         binding = ActivityAddStudentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val ourid: String? = intent.extras?.getString("id")
-
-//        Log.d("ourid", ourid.toString());
+        val ourid: String? = intent.extras?.getString("ourid")
+       Log.d("ouridLast", ourid.toString());
 
         binding.saveStudentButton.setOnClickListener{
 
@@ -45,8 +44,8 @@ class Add_Student : AppCompatActivity() {
 
 
                     val studentData = hashMapOf(
-                        "student_name" to studentNmae,
-                        "roll_no" to rollNo,
+                        "Name" to studentNmae,
+                        "ID" to rollNo,
 
                     )
 
