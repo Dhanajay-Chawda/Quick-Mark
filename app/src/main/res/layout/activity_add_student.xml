@@ -11,11 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20sp"
+        android:layout_marginBottom="8dp"
         android:padding="15dp"
-        android:text="Enter Name"
+        android:text="Name"
+        app:layout_constraintBottom_toTopOf="@+id/takeRollNo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/takeRollNo"
@@ -23,21 +24,51 @@
         android:layout_height="wrap_content"
         android:layout_margin="20sp"
         android:padding="15dp"
-        android:text="Roll No."
+        android:text="ID"
+        app:layout_constraintBottom_toTopOf="@+id/saveStudentButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/takeStudentName" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/saveStudentButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="70dp"
+        android:layout_margin="80dp"
+        android:layout_marginBottom="52dp"
         android:text="Save"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/takePhotoButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       android:layout_margin="60dp"
+        android:text="Take Photo"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/takeRollNo" />
+        app:layout_constraintTop_toTopOf="@+id/guideline4" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="318dp" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="208dp"
+        android:layout_height="253dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.smart_attendence_system.databinding.ActivityAddStudentBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.io.File
 
 class Add_Student : AppCompatActivity() {
 
@@ -21,6 +22,8 @@ class Add_Student : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_student)
+
+
 
         binding = ActivityAddStudentBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -70,7 +73,7 @@ class Add_Student : AppCompatActivity() {
         }
 
 
-
-
     }
+
+
 }
