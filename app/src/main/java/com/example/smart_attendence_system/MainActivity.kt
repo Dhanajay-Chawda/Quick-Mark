@@ -12,6 +12,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import User
 import android.util.Log
+import android.widget.Button
+import android.widget.ImageButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -52,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        val logout = findViewById<FloatingActionButton>(R.id.logout)
+        val logout = findViewById<ImageButton>(R.id.logout)
         logout.setOnClickListener {
 
             auth.signOut()
@@ -68,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        val creat = findViewById<FloatingActionButton>(R.id.Creat_Class)
+        val creat = findViewById<Button>(R.id.Creat_Class)
         creat.setOnClickListener {
             // Create the intent to open the next activity
             val intent = Intent(this,Creat_Class::class.java)

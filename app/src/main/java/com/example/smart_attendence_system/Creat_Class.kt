@@ -2,6 +2,7 @@ package com.example.smart_attendence_system
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.example.smart_attendence_system.databinding.ActivityCreatClassBinding
 import com.example.smart_attendence_system.databinding.ActivityLoginPageBinding
@@ -19,13 +20,14 @@ class Creat_Class : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_creat_class)
 
+        supportActionBar?.hide()
 
         binding = ActivityCreatClassBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.button2.setOnClickListener{
 
-
+            Log.d("save","In save button")
             val className = binding.ClaasName.text.toString().trim()
             val section = binding.editTextTextPersonName2.text.toString().trim()
             val subject = binding.editTextTextPersonName3.text.toString().trim()

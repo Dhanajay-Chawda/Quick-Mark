@@ -77,12 +77,12 @@
 
             <TextView
                 android:id="@+id/user_email_textview"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="FIRSTNAME LASTNAME"
-                android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -100,7 +100,7 @@
                 app:layout_constraintStart_toStartOf="@+id/user_email_textview"
                 app:layout_constraintTop_toBottomOf="@+id/user_email_textview" />
 
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/Creat_Class"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -108,9 +108,10 @@
                 android:layout_marginBottom="8dp"
                 android:text="creat class"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent">
+            </Button>
 
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/editProfileB"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
@@ -119,7 +120,8 @@
                 android:text="EDIT PROFILE"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/Creat_Class"
-                app:layout_constraintStart_toEndOf="@+id/Creat_Class" />
+                app:layout_constraintStart_toEndOf="@+id/Creat_Class" >
+            </Button>
 
             <ImageButton
                 android:id="@+id/profileB"

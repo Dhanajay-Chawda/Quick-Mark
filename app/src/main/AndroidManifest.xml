@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Smart_Attendence_System"
         tools:targetApi="31">
+        <activity
+            android:name=".MainActivity2"
+            android:exported="false" />
         <activity
             android:name=".Add_Student"
             android:exported="false" />
@@ -64,20 +68,16 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        
+
         <provider
-            android:authorities="com.example.smart_attendence_system.fileProvider"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.smart_attendence_system.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
-
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
-
+                android:resource="@xml/file_paths" />
         </provider>
-
-        
     </application>
-    
+
 </manifest>

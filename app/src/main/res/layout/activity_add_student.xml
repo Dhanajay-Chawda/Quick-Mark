@@ -11,11 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20sp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="56dp"
         android:padding="15dp"
-        android:text="Name"
+        android:hint="Name"
         app:layout_constraintBottom_toTopOf="@+id/takeRollNo"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
@@ -24,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20sp"
         android:padding="15dp"
-        android:text="ID"
+        android:hint="ID"
         app:layout_constraintBottom_toTopOf="@+id/saveStudentButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -45,7 +46,7 @@
         android:id="@+id/takePhotoButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-       android:layout_margin="60dp"
+        android:layout_margin="60dp"
         android:text="Take Photo"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,17 +58,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="318dp" />
+        app:layout_constraintGuide_begin="282dp" />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="208dp"
-        android:layout_height="253dp"
+        android:layout_width="188dp"
+        android:layout_height="216dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.274"
         tools:srcCompat="@tools:sample/avatars" />
 
 

@@ -23,7 +23,7 @@ class Add_Student : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_student)
 
-
+        supportActionBar?.hide()
 
         binding = ActivityAddStudentBinding.inflate(layoutInflater)
         setContentView(binding.root)
