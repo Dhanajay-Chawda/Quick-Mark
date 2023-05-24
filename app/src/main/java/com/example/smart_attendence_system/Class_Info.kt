@@ -12,6 +12,9 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -21,7 +24,8 @@ import androidx.core.content.ContextCompat
 
 class Class_Info : AppCompatActivity() {
 
-    var imageView: ImageView? = null
+    var info_image: ImageView? = null
+    var getusermedia : ActivityResultLauncher<PickVisualMediaRequest>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,24 +46,37 @@ class Class_Info : AppCompatActivity() {
             startActivity(intent)
         }
 
+        info_image = findViewById(R.id.ivUser)
 
-
-//        val cameraon = findViewById<CardView>(R.id.contributeCard)
-//        cameraon.setOnClickListener {
-//            // Create the intent to open the next activity
+        val cameraon = findViewById<CardView>(R.id.btnTakePicture)
+        cameraon.setOnClickListener {
+            // Create the intent to open the next activity
 //            val intent = Intent(this, MainActivity2 ::class.java)
-//
-//            // Start the next activity
+            if (Class_Info.checkAndRequestPermissions(this@Class_Info)) {
+                chooseImage(this@Class_Info)
+            }
+
+            // Start the next activity
 //            startActivity(intent)
-//        }
+        }
+
+        getusermedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            // Callback is invoked after the user selects a media item or closes the
+            // photo picker.
+            if (uri != null) {
+                info_image?.setImageURI(uri)
+            } else {
+                Log.d("PhotoPicker", "No media selected")
+            }
+        }
 
 
 
         // Initialize the imageView (Link the imageView with front-end component ImageView)
-        imageView = findViewById(R.id.ivUser)
-        if (Class_Info.checkAndRequestPermissions(this@Class_Info)) {
-            chooseImage(this@Class_Info)
-        }
+//        imageView = findViewById(R.id.ivUser)
+//        if (Class_Info.checkAndRequestPermissions(this@Class_Info)) {
+//            chooseImage(this@Class_Info)
+//        }
 
 
     }
@@ -83,11 +100,14 @@ class Class_Info : AppCompatActivity() {
                 startActivityForResult(takePicture, 0)
             } else if (optionsMenu[i] == "Choose from Gallery") {
                 // choose from  external storage
-                val pickPhoto = Intent(
-                    Intent.ACTION_PICK,
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                )
-                startActivityForResult(pickPhoto, 1)
+//                val pickPhoto = Intent(
+//                    Intent.ACTION_PICK,
+//                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+//                )
+//                startActivityForResult(pickPhoto, 1)
+
+                getusermedia?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+
             } else if (optionsMenu[i] == "Exit") {
                 dialogInterface.dismiss()
             }
@@ -104,7 +124,7 @@ class Class_Info : AppCompatActivity() {
         fun checkAndRequestPermissions(context: Context): Boolean {
             val WExtstorePermission = ContextCompat.checkSelfPermission(
                 context,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                Manifest.permission.READ_EXTERNAL_STORAGE
             )
             val cameraPermission = ContextCompat.checkSelfPermission(
                 context,
@@ -114,10 +134,11 @@ class Class_Info : AppCompatActivity() {
             if (cameraPermission != PackageManager.PERMISSION_GRANTED) {
                 listPermissionsNeeded.add(Manifest.permission.CAMERA)
             }
-            if (WExtstorePermission != PackageManager.PERMISSION_GRANTED) {
-                listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            }
-            if (!listPermissionsNeeded.isEmpty()) {
+//            if (WExtstorePermission != PackageManager.PERMISSION_GRANTED) {
+//                listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+//            }
+            if (listPermissionsNeeded.isNotEmpty()) {
+                Log.e("mymessage", "checkAndRequestPermissions: working!!:"+listPermissionsNeeded.toTypedArray().get(0), )
                 ActivityCompat.requestPermissions(
                     context as Activity,
                     listPermissionsNeeded.toTypedArray(),
@@ -151,17 +172,15 @@ class Class_Info : AppCompatActivity() {
                         "FlagUp Requires Access to Camera.",
                         Toast.LENGTH_SHORT
                     ).show()
-                } else if (ContextCompat.checkSelfPermission(
-                        this@Class_Info,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    Toast.makeText(
-                        applicationContext,
-                        "FlagUp Requires Access to Your Storage.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
+                }
+//                else if(ContextCompat.checkSelfPermission(this@Class_Info,Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+//                    Toast.makeText(
+//                        applicationContext,
+//                        "FlagUp Requires Access to Storage.",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+                else {
                     chooseImage(this@Class_Info)
                 }
             }
@@ -175,7 +194,7 @@ class Class_Info : AppCompatActivity() {
             when (requestCode) {
                 0 -> if (resultCode == RESULT_OK && data != null) {
                     val selectedImage = data.extras!!["data"] as Bitmap?
-                    imageView!!.setImageBitmap(selectedImage)
+                    info_image!!.setImageBitmap(selectedImage)
                 }
                 1 -> if (resultCode == RESULT_OK && data != null) {
                     val selectedImage = data.data
@@ -187,7 +206,7 @@ class Class_Info : AppCompatActivity() {
                             cursor.moveToFirst()
                             val columnIndex = cursor.getColumnIndex(filePathColumn[0])
                             val picturePath = cursor.getString(columnIndex)
-                            imageView!!.setImageBitmap(BitmapFactory.decodeFile(picturePath))
+                            info_image!!.setImageBitmap(BitmapFactory.decodeFile(picturePath))
                             cursor.close()
                         }
                     }
