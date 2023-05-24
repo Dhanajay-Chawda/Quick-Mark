@@ -30,9 +30,19 @@ class MyAdapter(private val userList: ArrayList<User>):
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
+
+        // Set the default text for Section and Subject TextViews
+        holder.tvSection.text = "Section:- "
+        holder.tvSubject.text = "Subject:- "
+
+        // Set the actual data from the fetched data
         holder.tvClass.text = userList[position].class_name
+        userList[position].section?.let { holder.tvSection.append(it) }
+        userList[position].subject?.let { holder.tvSubject.append(it) }
+
+       /* holder.tvClass.text = userList[position].class_name
         holder.tvSection.text = userList[position].section
-        holder.tvSubject.text = userList[position].subject
+        holder.tvSubject.text = userList[position].subject*/
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, Class_Info::class.java)

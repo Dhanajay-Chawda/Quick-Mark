@@ -7,6 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".Class_Info">
 
+
+    <ImageView
+        android:id="@+id/ivUser"
+        android:layout_width="218dp"
+        android:layout_height="262dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -21,7 +32,7 @@
         app:layout_constraintTop_toTopOf="@id/guideline2">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/contributeCard"
+            android:id="@+id/btnTakePicture"
             android:layout_width="128dp"
             android:layout_height="128dp"
             android:layout_margin="8dp"
@@ -126,7 +137,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="425dp" />
+        app:layout_constraintGuide_end="306dp" />
 
 
 

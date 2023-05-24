@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:text="Section"
             android:textSize="15sp"
+            android:layout_marginTop="8dp"
             android:textColor="@color/black"/>
 
         <TextView
@@ -35,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Subject"
+            android:layout_marginTop="5dp"
             android:textSize="15sp"
             android:textColor="@color/black"/>
     </LinearLayout>

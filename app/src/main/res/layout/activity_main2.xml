@@ -7,23 +7,23 @@
     tools:context=".MainActivity">
 
 
-    <ImageView
-        android:id="@+id/ivUser"
-        android:layout_width="218dp"
-        android:layout_height="262dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnTakePicture"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+<!--    <ImageView-->
+<!--        android:id="@+id/ivUser"-->
+<!--        android:layout_width="218dp"-->
+<!--        android:layout_height="262dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/btnTakePicture"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        tools:srcCompat="@tools:sample/avatars" />-->
 
-    <Button
-        android:id="@+id/btnTakePicture"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Take Photo"
-        android:layout_margin="60dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivUser" />
+<!--    <Button-->
+<!--        android:id="@+id/btnTakePicture"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Take Photo"-->
+<!--        android:layout_margin="60dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/ivUser" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
