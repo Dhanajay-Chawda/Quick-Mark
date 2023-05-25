@@ -42,6 +42,8 @@
         <activity
             android:name=".singup_page"
             android:exported="false" />
+        <activity android:name=".FaceRecognitionActivity"
+            android:screenOrientation="userPortrait" />
         <activity
             android:name=".login_page"
             android:exported="false">

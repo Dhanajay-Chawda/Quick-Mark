@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -43,6 +44,12 @@ class Class_Info : AppCompatActivity() {
             intent.putExtra("ourid", ourid)
 
             // Start the next activity
+            startActivity(intent)
+        }
+
+        val magicbutton = findViewById<Button>(R.id.magicbutton)
+        magicbutton.setOnClickListener {
+            val intent = Intent(this,FaceRecognitionActivity::class.java)
             startActivity(intent)
         }
 
