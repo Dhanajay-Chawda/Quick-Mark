@@ -46,18 +46,14 @@ class Class_Info : AppCompatActivity() {
             startActivity(intent)
         }
 
-        info_image = findViewById(R.id.ivUser)
 
+
+        info_image = findViewById(R.id.ivUser)
         val cameraon = findViewById<CardView>(R.id.btnTakePicture)
         cameraon.setOnClickListener {
-            // Create the intent to open the next activity
-//            val intent = Intent(this, MainActivity2 ::class.java)
             if (Class_Info.checkAndRequestPermissions(this@Class_Info)) {
                 chooseImage(this@Class_Info)
             }
-
-            // Start the next activity
-//            startActivity(intent)
         }
 
         getusermedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
@@ -69,14 +65,6 @@ class Class_Info : AppCompatActivity() {
                 Log.d("PhotoPicker", "No media selected")
             }
         }
-
-
-
-        // Initialize the imageView (Link the imageView with front-end component ImageView)
-//        imageView = findViewById(R.id.ivUser)
-//        if (Class_Info.checkAndRequestPermissions(this@Class_Info)) {
-//            chooseImage(this@Class_Info)
-//        }
 
 
     }
@@ -100,12 +88,6 @@ class Class_Info : AppCompatActivity() {
                 startActivityForResult(takePicture, 0)
             } else if (optionsMenu[i] == "Choose from Gallery") {
                 // choose from  external storage
-//                val pickPhoto = Intent(
-//                    Intent.ACTION_PICK,
-//                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-//                )
-//                startActivityForResult(pickPhoto, 1)
-
                 getusermedia?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
 
             } else if (optionsMenu[i] == "Exit") {
@@ -134,9 +116,6 @@ class Class_Info : AppCompatActivity() {
             if (cameraPermission != PackageManager.PERMISSION_GRANTED) {
                 listPermissionsNeeded.add(Manifest.permission.CAMERA)
             }
-//            if (WExtstorePermission != PackageManager.PERMISSION_GRANTED) {
-//                listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE)
-//            }
             if (listPermissionsNeeded.isNotEmpty()) {
                 Log.e("mymessage", "checkAndRequestPermissions: working!!:"+listPermissionsNeeded.toTypedArray().get(0), )
                 ActivityCompat.requestPermissions(
@@ -173,13 +152,6 @@ class Class_Info : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-//                else if(ContextCompat.checkSelfPermission(this@Class_Info,Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-//                    Toast.makeText(
-//                        applicationContext,
-//                        "FlagUp Requires Access to Storage.",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }
                 else {
                     chooseImage(this@Class_Info)
                 }
