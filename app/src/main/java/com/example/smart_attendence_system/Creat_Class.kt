@@ -1,5 +1,6 @@
 package com.example.smart_attendence_system
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -52,6 +53,14 @@ class Creat_Class : AppCompatActivity() {
                             binding.ClaasName.setText("")
                             binding.editTextTextPersonName2.setText("")
                             binding.editTextTextPersonName3.setText("")
+
+                            // Finish the current activity and go back to MainActivity
+                            finish()
+
+                            // Restart MainActivity to refresh the data
+                            val intent = Intent(this, MainActivity::class.java)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                            startActivity(intent)
                         }
                         .addOnFailureListener {
                             Toast.makeText(this, "Failed to save data", Toast.LENGTH_SHORT).show()

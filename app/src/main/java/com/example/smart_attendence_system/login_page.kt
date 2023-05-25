@@ -91,12 +91,18 @@ class login_page : AppCompatActivity() {
 
 
 
-override fun onStart() {
-    super.onStart()
+    override fun onStart() {
+        super.onStart()
 
-    if(firebaseAuth.currentUser != null){
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser != null) {
+            val isEmailVerified = currentUser.isEmailVerified
+            if (isEmailVerified) {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Please verify your email", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
-}
     }

@@ -79,6 +79,17 @@ class Add_Student : AppCompatActivity() {
                             Toast.makeText(this, "Data saved successfully", Toast.LENGTH_SHORT).show()
                             binding.takeStudentName.setText("")
                             binding.takeRollNo.setText("")
+
+
+                            // Create an intent to go back to the Student_List activity
+                            val intent = Intent(this, Student_List::class.java)
+                            intent.putExtra("ourid", ourid) // Pass any relevant data to reload the Student_List activity
+
+                            // Start the Student_List activity and finish the current activity
+                            startActivity(intent)
+                            finish()
+
+
                         }
                         .addOnFailureListener {
                             Toast.makeText(this, "Failed to save data", Toast.LENGTH_SHORT).show()
