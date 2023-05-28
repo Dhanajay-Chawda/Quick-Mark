@@ -27,8 +27,8 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.example.smart_attendence_system.Person
 import com.example.smart_attendence_system.R
-import com.example.smart_attendence_system.helper.VisionBaseProcessor
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.common.util.concurrent.ListenableFuture
 import java.io.ByteArrayOutputStream
@@ -55,7 +55,9 @@ abstract class MLVideoHelperActivity : AppCompatActivity() {
         outputTextView = findViewById<TextView>(R.id.output_text_view)
         addFaceButton = findViewById<ExtendedFloatingActionButton>(R.id.button_add_face)
         cameraProviderFuture = ProcessCameraProvider.getInstance(applicationContext)
-        processor = setProcessor()
+        getFacesFromDatabase { faceList ->
+            processor = setProcessor(faceList)
+        }
         if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA)
         } else {
@@ -185,12 +187,13 @@ abstract class MLVideoHelperActivity : AppCompatActivity() {
     protected val lensFacing: Int
         protected get() = CameraSelector.LENS_FACING_BACK
 
-    protected abstract fun setProcessor(): VisionBaseProcessor<*>?
+    protected abstract fun setProcessor(faceList: MutableList<Person?>): VisionBaseProcessor<*>?
     fun makeAddFaceVisible() {
         addFaceButton!!.visibility = View.VISIBLE
     }
 
     open fun onAddFaceClicked(view: View?) {}
+    open fun getFacesFromDatabase(callback:(MutableList<Person?>) -> Unit) {}
 
     companion object {
         private const val REQUEST_CAMERA = 1001

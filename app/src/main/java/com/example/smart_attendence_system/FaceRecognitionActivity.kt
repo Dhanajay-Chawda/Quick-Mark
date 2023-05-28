@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.example.smart_attendence_system.helper.MLVideoHelperActivity
-import com.example.smart_attendence_system.helper.VisionBaseProcessor
 import com.example.smart_attendence_system.helper.FaceRecognitionProcessor
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.mlkit.vision.face.Face
@@ -23,6 +22,7 @@ import java.io.IOException
 
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FaceRecognitionActivity : MLVideoHelperActivity(),
@@ -39,7 +39,7 @@ class FaceRecognitionActivity : MLVideoHelperActivity(),
         makeAddFaceVisible()
     }
 
-     override fun setProcessor(): FaceRecognitionProcessor {
+     override fun setProcessor(faceList: MutableList<Person?>): FaceRecognitionProcessor {
         try {
             faceNetInterpreter =
                 Interpreter(
@@ -52,11 +52,35 @@ class FaceRecognitionActivity : MLVideoHelperActivity(),
         val RecognitionProcessor = FaceRecognitionProcessor(
             faceNetInterpreter!!,
             graphicOverlay!!,
-            this
+            this,
+            faceList
         )
         RecognitionProcessor.activity = this
          faceRecognitionProcessor = RecognitionProcessor
         return faceRecognitionProcessor as FaceRecognitionProcessor
+    }
+
+    override fun getFacesFromDatabase(callback:(MutableList<Person?>) -> Unit) {
+        val tmpFacelist : MutableList<Person?> = ArrayList()
+        val embeddingRef = FirebaseFirestore.getInstance().collection("users")
+            .document("TfLv9kxZF8TDPoSAzTYHu0HQC0v1")
+            .collection("classes")
+            .document("puIln15rxEQ7lksQ8DK3")
+            .collection("embedding")
+            .get()
+            .addOnSuccessListener { documents->
+                for(doc in documents){
+                    val nme : String? = doc.getString("name")
+                    val embe : ArrayList<Float>? = doc.get("embedding") as ArrayList<Float>?
+                    //Log.e("mydata","datafromdocs:$nme ------ ${embe?.toFloatArray().contentToString()}")
+                    tmpFacelist.add(Person(nme!!, embe?.toFloatArray()!!))
+
+                    callback(tmpFacelist)
+                }
+            }
+            .addOnFailureListener {
+                    callback(emptyList<Person?>().toMutableList())
+            }
     }
 
     fun setTestImage(cropToBBox: Bitmap?) {
@@ -161,7 +185,7 @@ override fun onFaceRecognised(face: Face?, probability: Float, name: String?) {
                 val name = input.toString()
                 val faceRecord = hashMapOf(
                     "name" to name,
-                    "embedding" to tempVector.toString()
+                    "embedding" to tempVector.toList()
                 )
 
                 // Save the face record to Firestore

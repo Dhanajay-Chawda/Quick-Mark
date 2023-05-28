@@ -10,8 +10,8 @@ import android.util.Pair
 import androidx.annotation.OptIn
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageProxy
-import com.example.smart_attendence_system.helper.FaceGraphic
 import com.example.smart_attendence_system.FaceRecognitionActivity
+import com.example.smart_attendence_system.Person
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.common.InputImage
@@ -25,16 +25,16 @@ import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.image.ops.ResizeOp
 import org.tensorflow.lite.support.image.ImageProcessor
 import java.nio.ByteBuffer
-import java.util.Arrays
 
 
 class FaceRecognitionProcessor(
     faceNetModelInterpreter: Interpreter,
     private val graphicOverlay: GraphicOverlay,
-    private val callback: FaceRecognitionCallback?
+    private val callback: FaceRecognitionCallback?,
+    facefromdb: MutableList<Person?>
 ) :
     VisionBaseProcessor<List<Face>>() {
-    inner class Person(var name: String, var faceVector: FloatArray)
+    //inner class Person(var name: String, var faceVector: FloatArray)
     interface FaceRecognitionCallback {
         fun onFaceRecognised(face: Face?, probability: Float, name: String?)
         fun onFaceDetected(face: Face?, faceBitmap: Bitmap?, vect: FloatArray?)
@@ -47,6 +47,13 @@ class FaceRecognitionProcessor(
     var recognisedFaceList: MutableList<Person?> = ArrayList()
 
     init {
+        if(recognisedFaceList.isEmpty()){
+            recognisedFaceList = facefromdb
+            Log.d("mytag", "Working!!!!!! -- ${facefromdb.size}")
+        }
+        for(tmp in recognisedFaceList) {
+            Log.d("mytag", "output array: ${tmp!!.name}")
+        }
         // initialize processors
         this.faceNetModelInterpreter = faceNetModelInterpreter
         faceNetImageProcessor = ImageProcessor.Builder()
@@ -112,7 +119,11 @@ class FaceRecognitionProcessor(
                         )
                     }
                     faceNetModelInterpreter.run(faceNetByteBuffer, faceOutputArray)
-                    Log.d("mytag", "output array: " + Arrays.deepToString(faceOutputArray))
+//                    var tmp:String = "";
+//                    for(i in faceOutputArray[0]){
+//                        tmp.plus(i.toString());
+//                    }
+
                     if (callback != null) {
                         callback.onFaceDetected(face, faceBitmap, faceOutputArray[0])
                         if (!recognisedFaceList.isEmpty()) {
