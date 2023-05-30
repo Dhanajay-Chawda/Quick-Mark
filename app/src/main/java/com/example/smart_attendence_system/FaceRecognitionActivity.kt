@@ -34,15 +34,17 @@ class FaceRecognitionActivity : MLVideoHelperActivity(),
     private var faceBitmap: Bitmap? = null
     private lateinit var faceVector: FloatArray
 
-    val ourid12: String? = intent?.extras?.getString("ourid2")
+    var ourid12: String? = null
     val userId = FirebaseAuth.getInstance().currentUser?.uid  // Get the current user ID
 
 
     @RequiresApi(Build.VERSION_CODES.M)
     protected override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        ourid12=intent?.extras?.getString("ourid2")
+        Log.d("hemmm","ourid:$ourid12")
         makeAddFaceVisible()
+
     }
 
      override fun setProcessor(faceList: MutableList<Person?>): FaceRecognitionProcessor {
@@ -170,6 +172,7 @@ override fun onFaceRecognised(face: Face?, probability: Float, name: String?) {
 
     override fun onAddFaceClicked(view: View?) {
         super.onAddFaceClicked(view)
+        Log.d("hemmm","ourid:$ourid12")
         if (face == null || faceBitmap == null) {
             return
         }

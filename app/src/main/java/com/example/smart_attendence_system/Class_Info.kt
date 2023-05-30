@@ -49,8 +49,9 @@ class Class_Info : AppCompatActivity() {
 
         val magicbutton = findViewById<Button>(R.id.magicbutton)
         magicbutton.setOnClickListener {
+//            Log.d("hemaaaa", "Inside OnClickListener")
             val intent = Intent(this,FaceRecognitionActivity::class.java)
-
+//            Log.d("hemaaaa","myid $ourid")
             intent.putExtra("ourid2", ourid)
 
             startActivity(intent)
