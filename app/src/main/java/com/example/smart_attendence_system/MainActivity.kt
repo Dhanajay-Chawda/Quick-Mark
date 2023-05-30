@@ -14,6 +14,7 @@ import User
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
+import android.app.AlertDialog
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     private var backPressedTime: Long = 0
     private val backPressedInterval: Long = 2000 // Time interval for double press in milliseconds
 
+    private lateinit var logoutDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -49,41 +51,27 @@ class MainActivity : AppCompatActivity() {
         if (currentUser != null) {
             db.collection("users").document(currentUser.uid).get()
                 .addOnSuccessListener { documentSnapshot ->
-                if (documentSnapshot.exists()) {
-                    val userEmail = documentSnapshot.getString("email")
-                    userEmailTextView.text = userEmail
+                    if (documentSnapshot.exists()) {
+                        val userEmail = documentSnapshot.getString("email")
+                        userEmailTextView.text = userEmail
+                    }
                 }
-            }
         }
 
 
         val logout = findViewById<ImageButton>(R.id.logout)
         logout.setOnClickListener {
-
-            auth.signOut()
-
-            // Create the intent to open the next activity
-            val intent = Intent(this, login_page::class.java)
-
-            // Start the next activity
-            startActivity(intent)
-            Toast.makeText(this, "Logout  successful", Toast.LENGTH_SHORT).show()
-
-
+            showLogoutDialog()
         }
-
 
         val creat = findViewById<Button>(R.id.Creat_Class)
         creat.setOnClickListener {
             // Create the intent to open the next activity
-            val intent = Intent(this,Creat_Class::class.java)
+            val intent = Intent(this, Creat_Class::class.java)
 
             // Start the next activity
             startActivity(intent)
         }
-
-
-
 
         recyclerView = findViewById(R.id.RecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -97,31 +85,51 @@ class MainActivity : AppCompatActivity() {
                 .get()
                 .addOnSuccessListener {
 
-                    if (!it.isEmpty){
-                        //Log.d("main activity userlist",it.documents.toString());
-                        for(data in it.documents){
-                            Log.d("main activity userlist",data.id.toString());
-                            var usr:User? =data.toObject(User::class.java);
-                            usr?.classid=data.id.toString();
+                    if (!it.isEmpty) {
+                        for (data in it.documents) {
+                            Log.d("main activity userlist", data.id.toString())
+                            var usr: User? = data.toObject(User::class.java)
+                            usr?.classid = data.id.toString()
                             if (usr != null) {
                                 userList.add(usr)
                             }
                         }
-                        //Log.d("main activity userlist",userList[0].s.toString());
                         recyclerView.adapter = MyAdapter(userList)
-
                     }
                 }
-                .addOnFailureListener{
-                    Toast.makeText(this,it.toString(),Toast.LENGTH_SHORT).show()
+                .addOnFailureListener {
+                    Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
                 }
         }
-
-
-
     }
 
+    private fun showLogoutDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Logout")
+        builder.setMessage("Are you sure you want to logout?")
 
+        builder.setPositiveButton("Yes") { _, _ ->
+            logout()
+        }
+
+        builder.setNegativeButton("No") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        logoutDialog = builder.create()
+        logoutDialog.show()
+    }
+
+    private fun logout() {
+        auth.signOut()
+
+        // Create the intent to open the next activity
+        val intent = Intent(this, login_page::class.java)
+
+        // Start the next activity
+        startActivity(intent)
+        Toast.makeText(this, "Logout successful", Toast.LENGTH_SHORT).show()
+    }
 
     override fun onBackPressed() {
         if (backPressedTime + backPressedInterval > System.currentTimeMillis()) {
@@ -154,6 +162,4 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
-
 }

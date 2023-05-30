@@ -14,6 +14,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.example.smart_attendence_system.helper.MLVideoHelperActivity
 import com.example.smart_attendence_system.helper.FaceRecognitionProcessor
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.mlkit.vision.face.Face
 import org.tensorflow.lite.Interpreter
@@ -33,9 +34,14 @@ class FaceRecognitionActivity : MLVideoHelperActivity(),
     private var faceBitmap: Bitmap? = null
     private lateinit var faceVector: FloatArray
 
+    val ourid12: String? = intent?.extras?.getString("ourid2")
+    val userId = FirebaseAuth.getInstance().currentUser?.uid  // Get the current user ID
+
+
     @RequiresApi(Build.VERSION_CODES.M)
     protected override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         makeAddFaceVisible()
     }
 
@@ -63,7 +69,7 @@ class FaceRecognitionActivity : MLVideoHelperActivity(),
     override fun getFacesFromDatabase(callback:(MutableList<Person?>) -> Unit) {
         val tmpFacelist : MutableList<Person?> = ArrayList()
         val embeddingRef = FirebaseFirestore.getInstance().collection("users")
-            .document("TfLv9kxZF8TDPoSAzTYHu0HQC0v1")
+            .document(userId!!)
             .collection("classes")
             .document("puIln15rxEQ7lksQ8DK3")
             .collection("embedding")
@@ -105,7 +111,7 @@ override fun onFaceRecognised(face: Face?, probability: Float, name: String?) {
 
         // Check if the attendance has already been marked for the current date
         val attendanceRef = firestore.collection("users")
-            .document("TfLv9kxZF8TDPoSAzTYHu0HQC0v1")
+            .document(userId!!)
             .collection("classes")
             .document("puIln15rxEQ7lksQ8DK3")
             .collection("attendance")
@@ -190,7 +196,7 @@ override fun onFaceRecognised(face: Face?, probability: Float, name: String?) {
 
                 // Save the face record to Firestore
                 val embeddingRef = FirebaseFirestore.getInstance().collection("users")
-                    .document("TfLv9kxZF8TDPoSAzTYHu0HQC0v1")
+                    .document(userId!!)
                     .collection("classes")
                     .document("puIln15rxEQ7lksQ8DK3")
                     .collection("embedding")
