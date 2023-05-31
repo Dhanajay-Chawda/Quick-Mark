@@ -71,14 +71,13 @@ class Class_Info : AppCompatActivity() {
         }
 
 
-
-
         recyclerView = findViewById(R.id.RecyclerView3)
         recyclerView.layoutManager = LinearLayoutManager(this)
         val user = firebaseAuth.currentUser
         val userId = user?.uid
         db = FirebaseFirestore.getInstance()
         userList = arrayListOf()
+//        Log.d("mydebug3","${userId} ${ourid}")
         if (userId != null) {
             db.collection("users")
                 .document(userId)
@@ -86,12 +85,13 @@ class Class_Info : AppCompatActivity() {
                 .document(ourid.toString())
                 .collection("attendance")
                 .get()
-                .addOnSuccessListener {
+                .addOnSuccessListener {documents->
+                    Log.d("mydebug3","success!!${documents.documents}:${documents.size()}")
 
-                    if (!it.isEmpty) {
-                        //Log.d("main activity userlist",it.documents.toString());
-                        for (data in it.documents) {
-
+                    if (!documents.isEmpty) {
+                        Log.d("mydebug3",documents.toString());
+                        for (data in documents) {
+//                            Log.d("mydebug",data.id.toString())
                             var user: User3? = data.toObject(User3::class.java)
                             user?.presentid = data.id.toString()
                             if (user != null) {

@@ -66,7 +66,7 @@ class Student_List : AppCompatActivity() {
                 .addOnSuccessListener {
 
                     if (!it.isEmpty){
-                        //Log.d("main activity userlist",it.documents.toString());
+//                        Log.d("main activity userlist",it.documents.toString());
                         for(data in it.documents){
 
                             var user: User2? = data.toObject(User2::class.java)

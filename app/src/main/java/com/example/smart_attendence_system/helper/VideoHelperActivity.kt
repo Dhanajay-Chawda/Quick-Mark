@@ -11,6 +11,7 @@ import android.graphics.YuvImage
 import android.media.Image
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Surface
 import android.view.View
 import android.widget.TextView
@@ -56,6 +57,7 @@ abstract class MLVideoHelperActivity : AppCompatActivity() {
         addFaceButton = findViewById<ExtendedFloatingActionButton>(R.id.button_add_face)
         cameraProviderFuture = ProcessCameraProvider.getInstance(applicationContext)
         getFacesFromDatabase { faceList ->
+            Log.d("mydebug","working!!!!!!1234")
             processor = setProcessor(faceList)
         }
         if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {

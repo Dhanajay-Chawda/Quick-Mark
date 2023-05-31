@@ -2,6 +2,7 @@ package com.example.smart_attendence_system
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -44,12 +45,11 @@ class PresentStudentList : AppCompatActivity() {
                 .document(dateid.toString())
                 .collection("present_student")
                 .get()
-                .addOnSuccessListener {
-
-                    if (!it.isEmpty){
-                        //Log.d("main activity userlist",it.documents.toString());
-                        for(data in it.documents){
-
+                .addOnSuccessListener { documents->
+                    if (!documents.isEmpty){
+//                        Log.d("mydebug3",documents.size().toString());
+                        for(data in documents){
+//                            Log.d("mydebug2",data.id)
                             var user: User4? = data.toObject(User4::class.java)
 //                            user?.name = data.id.toString()
                             if (user!= null) {

@@ -51,9 +51,9 @@ class FaceRecognitionProcessor(
             recognisedFaceList = facefromdb
             Log.d("mytag", "Working!!!!!! -- ${facefromdb.size}")
         }
-        for(tmp in recognisedFaceList) {
-            Log.d("mytag", "output array: ${tmp!!.name}")
-        }
+//        for(tmp in recognisedFaceList) {
+//            Log.d("mytag", "output array: ${tmp!!.name}")
+//        }
         // initialize processors
         this.faceNetModelInterpreter = faceNetModelInterpreter
         faceNetImageProcessor = ImageProcessor.Builder()
@@ -139,7 +139,6 @@ class FaceRecognitionProcessor(
                 }
             })
             .addOnFailureListener {
-                // intentionally left empty
             }
     }
 

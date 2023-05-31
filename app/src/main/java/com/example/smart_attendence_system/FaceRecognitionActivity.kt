@@ -16,6 +16,7 @@ import com.example.smart_attendence_system.DataClass.Person
 import com.example.smart_attendence_system.helper.MLVideoHelperActivity
 import com.example.smart_attendence_system.helper.FaceRecognitionProcessor
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.mlkit.vision.face.Face
 import org.tensorflow.lite.Interpreter
@@ -26,6 +27,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.SetOptions
 
 
 class FaceRecognitionActivity : MLVideoHelperActivity(),
@@ -79,17 +81,25 @@ class FaceRecognitionActivity : MLVideoHelperActivity(),
             .collection("embedding")
             .get()
             .addOnSuccessListener { documents->
-                for(doc in documents){
-                    val nme : String? = doc.getString("name")
-                    val embe : ArrayList<Float>? = doc.get("embedding") as ArrayList<Float>?
-                    //Log.e("mydata","datafromdocs:$nme ------ ${embe?.toFloatArray().contentToString()}")
-                    tmpFacelist.add(Person(nme!!, embe?.toFloatArray()!!))
-
+                if(documents.size() == 0){
+                    Log.d("mydebug", documents.size().toString())
                     callback(tmpFacelist)
+
+                }
+                else {
+
+                    for (doc in documents) {
+                        val nme: String? = doc.getString("name")
+                        val embe: ArrayList<Float>? = doc.get("embedding") as ArrayList<Float>?
+                        //Log.e("mydata","datafromdocs:$nme ------ ${embe?.toFloatArray().contentToString()}")
+                        tmpFacelist.add(Person(nme!!, embe?.toFloatArray()!!))
+
+                        callback(tmpFacelist)
+                    }
                 }
             }
             .addOnFailureListener {
-                    callback(emptyList<Person?>().toMutableList())
+                    callback(tmpFacelist)
             }
 
     }
@@ -105,7 +115,6 @@ class FaceRecognitionActivity : MLVideoHelperActivity(),
         }
     }
 
-//    override fun onFaceRecognised(face: Face?, probability: Float, name: String?) {}
 override fun onFaceRecognised(face: Face?, probability: Float, name: String?) {
     // Handle face recognition and attendance marking here
     if (face != null && probability > 0.5) {
@@ -115,15 +124,15 @@ override fun onFaceRecognised(face: Face?, probability: Float, name: String?) {
         val firestore = FirebaseFirestore.getInstance()
         val ourid12 = intent?.extras?.getString("ourid2")
 
-
+        Log.d("mydebug4",currentDate)
         // Check if the attendance has already been marked for the current date
-        val attendanceRef = firestore.collection("users")
+        val dateref = firestore.collection("users")
             .document(userId!!)
             .collection("classes")
             .document(ourid12.toString())
             .collection("attendance")
             .document(currentDate)
-            .collection("present_student")
+        val attendanceRef = dateref.collection("present_student")
 
         attendanceRef
             .whereEqualTo("name", name)
@@ -139,6 +148,11 @@ override fun onFaceRecognised(face: Face?, probability: Float, name: String?) {
                         "time" to currentTime
                     )
 
+                    val data = hashMapOf(
+                        "new_field" to "new_value"
+                    )
+
+                    dateref.set(data, SetOptions.merge())
                     attendanceRef.add(attendanceRecord)
                         .addOnSuccessListener { documentReference ->
                             // Attendance record saved successfully
@@ -167,6 +181,8 @@ override fun onFaceRecognised(face: Face?, probability: Float, name: String?) {
 
         }
     }
+
+
 
 
 
