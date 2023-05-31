@@ -11,7 +11,7 @@ import androidx.annotation.OptIn
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageProxy
 import com.example.smart_attendence_system.FaceRecognitionActivity
-import com.example.smart_attendence_system.Person
+import com.example.smart_attendence_system.DataClass.Person
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.common.InputImage

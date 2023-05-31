@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import com.example.smart_attendence_system.DataClass.Person
 import com.example.smart_attendence_system.helper.MLVideoHelperActivity
 import com.example.smart_attendence_system.helper.FaceRecognitionProcessor
 import com.google.firebase.auth.FirebaseAuth
@@ -24,6 +25,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import com.google.firebase.firestore.DocumentSnapshot
 
 
 class FaceRecognitionActivity : MLVideoHelperActivity(),
@@ -42,7 +44,6 @@ class FaceRecognitionActivity : MLVideoHelperActivity(),
     protected override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ourid12=intent?.extras?.getString("ourid2")
-        Log.d("hemmm","ourid:$ourid12")
         makeAddFaceVisible()
 
     }
@@ -70,10 +71,11 @@ class FaceRecognitionActivity : MLVideoHelperActivity(),
 
     override fun getFacesFromDatabase(callback:(MutableList<Person?>) -> Unit) {
         val tmpFacelist : MutableList<Person?> = ArrayList()
+        val ourid12 = intent?.extras?.getString("ourid2")
         val embeddingRef = FirebaseFirestore.getInstance().collection("users")
             .document(userId!!)
             .collection("classes")
-            .document("puIln15rxEQ7lksQ8DK3")
+            .document(ourid12.toString())
             .collection("embedding")
             .get()
             .addOnSuccessListener { documents->
@@ -89,6 +91,7 @@ class FaceRecognitionActivity : MLVideoHelperActivity(),
             .addOnFailureListener {
                     callback(emptyList<Person?>().toMutableList())
             }
+
     }
 
     fun setTestImage(cropToBBox: Bitmap?) {
@@ -106,16 +109,18 @@ class FaceRecognitionActivity : MLVideoHelperActivity(),
 override fun onFaceRecognised(face: Face?, probability: Float, name: String?) {
     // Handle face recognition and attendance marking here
     if (face != null && probability > 0.5) {
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
         val currentDate = sdf.format(Date())
         val currentTime = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
         val firestore = FirebaseFirestore.getInstance()
+        val ourid12 = intent?.extras?.getString("ourid2")
+
 
         // Check if the attendance has already been marked for the current date
         val attendanceRef = firestore.collection("users")
             .document(userId!!)
             .collection("classes")
-            .document("puIln15rxEQ7lksQ8DK3")
+            .document(ourid12.toString())
             .collection("attendance")
             .document(currentDate)
             .collection("present_student")
@@ -159,8 +164,9 @@ override fun onFaceRecognised(face: Face?, probability: Float, name: String?) {
                 Log.e(TAG, "Error checking attendance: $e")
                 Toast.makeText(this, "Failed to check attendance.", Toast.LENGTH_SHORT).show()
             }
+
+        }
     }
-}
 
 
 
@@ -196,12 +202,12 @@ override fun onFaceRecognised(face: Face?, probability: Float, name: String?) {
                     "name" to name,
                     "embedding" to tempVector.toList()
                 )
-
+                val ourid12 = intent?.extras?.getString("ourid2")
                 // Save the face record to Firestore
                 val embeddingRef = FirebaseFirestore.getInstance().collection("users")
                     .document(userId!!)
                     .collection("classes")
-                    .document("puIln15rxEQ7lksQ8DK3")
+                    .document(ourid12.toString())
                     .collection("embedding")
 
 
@@ -223,9 +229,11 @@ override fun onFaceRecognised(face: Face?, probability: Float, name: String?) {
                     }
 
             }
+
         }
 
         builder.show()
     }
 
 }
+

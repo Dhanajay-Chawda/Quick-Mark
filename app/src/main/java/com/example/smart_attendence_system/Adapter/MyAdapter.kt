@@ -1,12 +1,14 @@
-package com.example.smart_attendence_system
+package com.example.smart_attendence_system.Adapter
 
-import User
+import com.example.smart_attendence_system.DataClass.User
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.smart_attendence_system.Class_Info
+import com.example.smart_attendence_system.R
 
 
 class MyAdapter(private val userList: ArrayList<User>):
@@ -44,10 +46,12 @@ class MyAdapter(private val userList: ArrayList<User>):
         holder.tvSection.text = userList[position].section
         holder.tvSubject.text = userList[position].subject*/
 
+
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, Class_Info::class.java)
             val user = userList[position]
             intent.putExtra("id", user.classid)
+//            Log.d("TAG", "classid value: " + user.classid);
             holder.itemView.context.startActivity(intent)
         }
 

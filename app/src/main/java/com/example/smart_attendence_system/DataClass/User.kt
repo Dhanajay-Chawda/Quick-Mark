@@ -1,3 +1,5 @@
+package com.example.smart_attendence_system.DataClass
+
 import javax.security.auth.Subject
 
 data class User(

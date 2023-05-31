@@ -4,30 +4,43 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="8dp"
+    app:cardMaxElevation="5dp"
     android:layout_margin="10dp">
 
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/Name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Name"
-            android:textSize="20sp"
-            android:textColor="@color/yellow"
-            />
 
-        <TextView
-            android:id="@+id/ID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ID"
-            android:textSize="15sp"
-            android:textColor="@color/black"/>
+        <LinearLayout
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/Name"
+                android:text="Name"
+                android:textColor="@color/yellow"
+                android:textSize="19sp"
+                android:textStyle="bold"
+                android:layout_margin="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:src="@drawable/delete_vector"></ImageView>
+
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

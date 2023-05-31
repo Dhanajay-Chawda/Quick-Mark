@@ -7,14 +7,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import User
+import com.example.smart_attendence_system.DataClass.User
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.app.AlertDialog
+import com.example.smart_attendence_system.Adapter.MyAdapter
 
 class MainActivity : AppCompatActivity() {
 

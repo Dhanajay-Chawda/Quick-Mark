@@ -9,6 +9,7 @@
     app:cardMaxElevation="5dp"
     android:layout_margin="10dp">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,30 +17,21 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/clas_name"
+            android:id="@+id/Date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Class"
+            android:text="Date"
             android:textSize="20sp"
             android:textColor="@color/yellow"
             />
 
-        <TextView
-            android:id="@+id/section"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Section"
-            android:textSize="15sp"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/black"/>
-
-        <TextView
-            android:id="@+id/subject"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Subject"
-            android:layout_marginTop="5dp"
-            android:textSize="15sp"
-            android:textColor="@color/black"/>
+<!--        <TextView-->
+<!--            android:id="@+id/Day"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Day"-->
+<!--            android:textSize="15sp"-->
+<!--            android:textColor="@color/black"/>-->
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>

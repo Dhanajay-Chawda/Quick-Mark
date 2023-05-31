@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -21,12 +20,25 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.smart_attendence_system.Adapter.MyAdapter3
+import com.example.smart_attendence_system.DataClass.User3
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class Class_Info : AppCompatActivity() {
 
     var info_image: ImageView? = null
     var getusermedia : ActivityResultLauncher<PickVisualMediaRequest>? = null
+
+
+    private lateinit var recyclerView: RecyclerView
+    private val firebaseAuth = FirebaseAuth.getInstance()
+    private lateinit var userList: ArrayList<User3>
+    private lateinit var db: FirebaseFirestore
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,10 +47,14 @@ class Class_Info : AppCompatActivity() {
         val ourid: String? = intent.extras?.getString("id")
         //Log.d("ourid2", ourid.toString());
 
+        //Hide the actionBar
+        supportActionBar?.hide()
+
+
         val student_list = findViewById<CardView>(R.id.studentListButton)
         student_list.setOnClickListener {
             // Create the intent to open the next activity
-            val intent = Intent(this, Student_List ::class.java)
+            val intent = Intent(this, Student_List::class.java)
 
             // Add the ourid string data as an extra to the intent
             intent.putExtra("ourid", ourid)
@@ -47,157 +63,52 @@ class Class_Info : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val magicbutton = findViewById<Button>(R.id.magicbutton)
+        val magicbutton = findViewById<CardView>(R.id.btnTakePicture)
         magicbutton.setOnClickListener {
-//            Log.d("hemaaaa", "Inside OnClickListener")
-            val intent = Intent(this,FaceRecognitionActivity::class.java)
-//            Log.d("hemaaaa","myid $ourid")
+            val intent = Intent(this, FaceRecognitionActivity::class.java)
             intent.putExtra("ourid2", ourid)
-
             startActivity(intent)
         }
 
 
 
-        info_image = findViewById(R.id.ivUser)
-        val cameraon = findViewById<CardView>(R.id.btnTakePicture)
-        cameraon.setOnClickListener {
-            if (Class_Info.checkAndRequestPermissions(this@Class_Info)) {
-                chooseImage(this@Class_Info)
-            }
-        }
 
-        getusermedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            // Callback is invoked after the user selects a media item or closes the
-            // photo picker.
-            if (uri != null) {
-                info_image?.setImageURI(uri)
-            } else {
-                Log.d("PhotoPicker", "No media selected")
-            }
-        }
+        recyclerView = findViewById(R.id.RecyclerView3)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        val user = firebaseAuth.currentUser
+        val userId = user?.uid
+        db = FirebaseFirestore.getInstance()
+        userList = arrayListOf()
+        if (userId != null) {
+            db.collection("users")
+                .document(userId)
+                .collection("classes")
+                .document(ourid.toString())
+                .collection("attendance")
+                .get()
+                .addOnSuccessListener {
 
+                    if (!it.isEmpty) {
+                        //Log.d("main activity userlist",it.documents.toString());
+                        for (data in it.documents) {
 
-    }
-
-    // function to let's the user to choose image from camera or gallery
-    private fun chooseImage(context: Context) {
-        val optionsMenu = arrayOf<CharSequence>(
-            "Take Photo",
-            "Choose from Gallery",
-            "Exit"
-        ) // create a menuOption Array
-        // create a dialog for showing the optionsMenu
-        val builder = AlertDialog.Builder(context)
-        // set the items in builder
-        builder.setItems(
-            optionsMenu
-        ) { dialogInterface, i ->
-            if (optionsMenu[i] == "Take Photo") {
-                // Open the camera and get the photo
-                val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                startActivityForResult(takePicture, 0)
-            } else if (optionsMenu[i] == "Choose from Gallery") {
-                // choose from  external storage
-                getusermedia?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-
-            } else if (optionsMenu[i] == "Exit") {
-                dialogInterface.dismiss()
-            }
-        }
-        builder.show()
-    }
-
-
-
-    // function to check permission
-    companion object {
-        val REQUEST_ID_MULTIPLE_PERMISSIONS = 101
-
-        fun checkAndRequestPermissions(context: Context): Boolean {
-            val WExtstorePermission = ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            )
-            val cameraPermission = ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.CAMERA
-            )
-            val listPermissionsNeeded: MutableList<String> = ArrayList()
-            if (cameraPermission != PackageManager.PERMISSION_GRANTED) {
-                listPermissionsNeeded.add(Manifest.permission.CAMERA)
-            }
-            if (listPermissionsNeeded.isNotEmpty()) {
-                Log.e("mymessage", "checkAndRequestPermissions: working!!:"+listPermissionsNeeded.toTypedArray().get(0), )
-                ActivityCompat.requestPermissions(
-                    context as Activity,
-                    listPermissionsNeeded.toTypedArray(),
-                    REQUEST_ID_MULTIPLE_PERMISSIONS
-                )
-                return false
-            }
-            return true
-        }
-    }
-
-
-
-
-    // Handled permission Result
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String?>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            Class_Info.REQUEST_ID_MULTIPLE_PERMISSIONS -> {
-                if (ContextCompat.checkSelfPermission(
-                        this@Class_Info,
-                        Manifest.permission.CAMERA
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    Toast.makeText(
-                        applicationContext,
-                        "FlagUp Requires Access to Camera.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                else {
-                    chooseImage(this@Class_Info)
-                }
-            }
-        }
-    }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != RESULT_CANCELED) {
-            when (requestCode) {
-                0 -> if (resultCode == RESULT_OK && data != null) {
-                    val selectedImage = data.extras!!["data"] as Bitmap?
-                    info_image!!.setImageBitmap(selectedImage)
-                }
-                1 -> if (resultCode == RESULT_OK && data != null) {
-                    val selectedImage = data.data
-                    val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-                    if (selectedImage != null) {
-                        val cursor =
-                            contentResolver.query(selectedImage, filePathColumn, null, null, null)
-                        if (cursor != null) {
-                            cursor.moveToFirst()
-                            val columnIndex = cursor.getColumnIndex(filePathColumn[0])
-                            val picturePath = cursor.getString(columnIndex)
-                            info_image!!.setImageBitmap(BitmapFactory.decodeFile(picturePath))
-                            cursor.close()
+                            var user: User3? = data.toObject(User3::class.java)
+                            user?.presentid = data.id.toString()
+                            if (user != null) {
+                                userList.add(user)
+                            }
                         }
+                        //Log.d("main activity userlist",userList[0].s.toString());
+                        recyclerView.adapter = MyAdapter3(userList, ourid)
+
                     }
                 }
-            }
+                .addOnFailureListener {
+                    Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
+                }
         }
+
+
     }
-
-
 }
 

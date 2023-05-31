@@ -55,7 +55,7 @@ class singup_page : AppCompatActivity() {
                                     val userRef = db.collection("users").document(userId!!)
                                     userRef.set(mapOf("email" to email)).addOnCompleteListener { emailSaveTask ->
                                         if (emailSaveTask.isSuccessful) {
-                                            Toast.makeText(this, "User email saved successfully", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(this, "com.example.smart_attendence_system.DataClass.User email saved successfully", Toast.LENGTH_SHORT).show()
                                         } else {
                                             Toast.makeText(this, "Error saving user email: ${emailSaveTask.exception?.message}", Toast.LENGTH_SHORT).show()
                                         }
@@ -65,7 +65,7 @@ class singup_page : AppCompatActivity() {
                                 }
                             }
                         } else {
-                            Toast.makeText(this, "User creation failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "com.example.smart_attendence_system.DataClass.User creation failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                         }
                     }
                 } else {

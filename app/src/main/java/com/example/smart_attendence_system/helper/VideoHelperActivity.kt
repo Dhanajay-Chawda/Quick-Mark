@@ -27,7 +27,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import com.example.smart_attendence_system.Person
+import com.example.smart_attendence_system.DataClass.Person
 import com.example.smart_attendence_system.R
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.common.util.concurrent.ListenableFuture
