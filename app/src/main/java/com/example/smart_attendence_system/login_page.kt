@@ -15,6 +15,9 @@ class login_page : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginPageBinding
     private lateinit var firebaseAuth: FirebaseAuth
+    private var backPressedTime: Long = 0
+    private val backPressedInterval: Long = 2000 // Time interval for double press in milliseconds
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,5 +107,19 @@ class login_page : AppCompatActivity() {
                 Toast.makeText(this, "Please verify your email", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onBackPressed() {
+        if (backPressedTime + backPressedInterval > System.currentTimeMillis()) {
+            super.onBackPressed()
+            finishAffinity() // Close the app completely
+        } else {
+            Toast.makeText(
+                this,
+                "Press back again to exit",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        backPressedTime = System.currentTimeMillis()
     }
     }
